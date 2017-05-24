@@ -8,9 +8,12 @@
         {{ form.csrf_token }}
         <p>
             {{form.name.label}}
+						<!-- You should pass the value of the name into the form so that
+						     the user can see what to edit.
+					  -->
             {{form.name}}
         </p>
-   
+
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
@@ -20,4 +23,3 @@
 
 
 {% endblock %}
-

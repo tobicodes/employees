@@ -5,9 +5,9 @@ from project import db
 
 
 benefits_blueprint = Blueprint(
-    'benefits',
-    __name__,
-    template_folder='templates'
+	'benefits',
+	__name__,
+	template_folder='templates'
 )
 
 @benefits_blueprint.route("/", methods=['GET','POST'])
@@ -21,31 +21,33 @@ def index():
 			return redirect(url_for('benefits.index'))
 		else:
 			render_template('benefits/new.html', form=form)
-			
+
 	return render_template('benefits/index.html', benefits=Benefit.query.all())
 
 @benefits_blueprint.route("/new")
 def new():
- 	return render_template('benefits/new.html', form=NewBenefitForm())
+	 return render_template('benefits/new.html', form=NewBenefitForm())
 
 
 @benefits_blueprint.route('/<int:id>', methods=['GET','PATCH', 'DELETE'])
 def show(id):
 	found_benefit = Benefit.query.get(id)
 	if request.method==b'DELETE':
- 		db.session.delete(found_benefit)
- 		db.session.commit()
- 		return redirect(url_for('benefits.index'))
+		 db.session.delete(found_benefit)
+		 db.session.commit()
+		 return redirect(url_for('benefits.index'))
 	if request.method ==b'PATCH':
- 		form = NewBenefitForm(request.form)
- 		if form.validate():
-	 		found_benefit.name = form.name.data
-	 		found_benefit.cost_per_employee = form.name.cost_per_employee
-	 		db.session.add(found_benefit)
-	 		db.session.commit()
-	 		return redirect(url_for('benefits.index', benefit=found_benefit))
-	 	else:
-	 		return render_template('benefits/edit.html', form=form)
+		 form = NewBenefitForm(request.form)
+		 if form.validate():
+			 found_benefit.name = form.name.data
+			 found_benefit.cost_per_employee = form.name.cost_per_employee
+			 db.session.add(found_benefit)
+			 db.session.commit()
+			 return redirect(url_for('benefits.index', benefit=found_benefit))
+		 else:
+             #This the cause of the error.  Notice that the edit view needs a benefit passed
+             #in.  Also make sure to setup a flash message.
+			 return render_template('benefits/edit.html', benefit=found_benefit, form=form)
 	return render_template('benefits/show.html', benefit=found_benefit)
 
 
@@ -54,7 +56,3 @@ def edit(id):
 	found_benefit =Benefit.query.get(id)
 	form = NewBenefitForm()
 	return render_template('benefits/edit.html', benefit = found_benefit, form = form)
-
-
-
-
