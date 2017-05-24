@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="text-center">
+		
+		<h5>what benefits do you receive?</h5>
+		<form method="POST" action="{{url_for('benefits.index')}}">
+        {{ form.csrf_token }}
+        <p>
+            {{form.name.label}}
+            {{form.name}}
+        </p>
+        <p>
+            {{form.cost_per_employee.label}}
+            {{form.cost_per_employee}}
+        </p>
+
+       
+        
+    <input type="submit" class="btn btn-primary">
+</form>
+
+
+	</div>
+
+
+{% endblock%}
